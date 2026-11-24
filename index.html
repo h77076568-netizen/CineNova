@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineNova | Anime Universe</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090711;color:#fff;font-family:Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#100b1c;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #35204d}
+.logo{font-size:25px;font-weight:900;color:#bd7aff}
+.logo span{color:white}
+nav{display:flex;gap:17px}
+nav a{color:#ddd;text-decoration:none;font-size:13px}
+nav a:hover{color:#c68aff}
+.hero{margin:20px 4%;padding:35px 22px;border-radius:18px;min-height:240px;background:linear-gradient(100deg,#170b2e,#45206a,#160d29);display:flex;flex-direction:column;justify-content:center}
+.tag{color:#d4a4ff;font-size:12px;letter-spacing:2px}
+.hero h1{font-size:35px;margin:12px 0}
+.hero p{color:#ddd;max-width:420px;line-height:1.5;font-size:14px}
+.btn{background:#9c4dff;color:white;border:0;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;width:max-content}
+.search{margin:22px 4%;display:flex;gap:8px}
+.search input{width:100%;padding:14px;border:1px solid #49315f;border-radius:9px;background:#171121;color:white;font-size:15px;outline:none}
+section{padding:8px 4% 24px}
+.section-title{font-size:21px;margin:12px 0 17px}
+.filters{display:flex;gap:9px;overflow-x:auto;margin-bottom:18px}
+.filter{white-space:nowrap;padding:9px 15px;border-radius:20px;border:1px solid #49315f;background:#171121;color:#ddd;cursor:pointer}
+.filter.active{background:#923fe4;color:white;border-color:#923fe4}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:#171121;border:1px solid #30223e;border-radius:12px;overflow:hidden}
+.poster{height:155px;display:flex;align-items:center;justify-content:center;font-size:55px;background:linear-gradient(135deg,#32134e,#9a48b8)}
+.poster.two{background:linear-gradient(135deg,#101c42,#4569a8)}
+.poster.three{background:linear-gradient(135deg,#421629,#a94c70)}
+.poster.four{background:linear-gradient(135deg,#143a38,#398d7b)}
+.info{padding:12px}
+.info h3{margin:0 0 7px;font-size:15px}
+.info p{color:#aaa;font-size:12px;margin:0 0 12px}
+.watch{width:100%;padding:9px;border:0;border-radius:7px;background:#813bd0;color:white;font-weight:bold;cursor:pointer}
+.empty{color:#aaa;padding:20px 0}
+footer{text-align:center;color:#888;padding:28px 15px;border-top:1px solid #30223e;font-size:12px}
+#player{display:none;position:fixed;inset:0;background:#000e;z-index:10;align-items:center;justify-content:center;padding:20px}
+.playerbox{background:#171121;border:1px solid #7445a1;border-radius:15px;padding:22px;max-width:450px;width:100%}
+.playerbox h2{color:#c78bff}
+.playerbox p{color:#ccc;line-height:1.6;font-size:14px}
+.close{float:right;background:#39234e;color:white;border:0;padding:8px 12px;border-radius:6px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.poster{height:210px}.hero{padding:55px 45px}.hero h1{font-size:48px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Cine<span>Nova</span> ✦</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#anime">Anime</a>
+<a href="#movies">Movies</a>
+<a href="#about">About</a>
+</nav>
+</header>
+
+<div class="hero" id="home">
+<div class="tag">WELCOME TO YOUR ANIME UNIVERSE</div>
+<h1>Enter the Anime World</h1>
+<p>Discover amazing stories, explore new worlds and enjoy your favourite licensed videos in one place.</p>
+<button class="btn" onclick="document.getElementById('anime').scrollIntoView({behavior:'smooth'})">Explore Now →</button>
+</div>
+
+<div class="search">
+<input id="search" type="search" placeholder="🔍 Search anime, movies..." oninput="render()">
+</div>
+
+<section id="anime">
+<h2 class="section-title">✦ Explore Collection</h2>
+<div class="filters">
+<button class="filter active" onclick="setFilter('All',this)">All</button>
+<button class="filter" onclick="setFilter('Anime',this)">Anime</button>
+<button class="filter" onclick="setFilter('Movie',this)">Movies</button>
+<button class="filter" onclick="setFilter('Series',this)">Series</button>
+</div>
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" hidden>No titles found. Try another search.</div>
+</section>
+
+<section id="movies">
+<h2 class="section-title">✦ Your Watchlist</h2>
+<p style="color:#aaa;font-size:14px">More titles will appear here as you add your own licensed content.</p>
+</section>
+
+<section id="about">
+<h2 class="section-title">About CineNova</h2>
+<p style="color:#aaa;line-height:1.7;font-size:14px">CineNova is an independent entertainment platform prototype. Videos and downloads are available only when the content owner permits them.</p>
+</section>
+
+<div id="player">
+<div class="playerbox">
+<button class="close" onclick="closePlayer()">Close ✕</button>
+<h2 id="playerTitle">CineNova Player</h2>
+<p>This is your demo watch page. To stream a video, the site owner must add a video URL they own or are licensed to distribute.</p>
+<p style="color:#c78bff">Video player setup will be added in the next version.</p>
+</div>
+</div>
+
+<footer>© 2026 CineNova · Independent streaming platform</footer>
+
+<script>
+const titles=[
+ {name:"Mystic Adventures",type:"Anime",year:"2026",emoji:"🌌",style:""},
+ {name:"Shadow Quest",type:"Anime",year:"2025",emoji:"⚔️",style:"two"},
+ {name:"Crimson Moon",type:"Movie",year:"2026",emoji:"🌙",style:"three"},
+ {name:"Ocean Dreams",type:"Series",year:"2025",emoji:"🌊",style:"four"},
+ {name:"Galaxy Heroes",type:"Anime",year:"2026",emoji:"🚀",style:"two"},
+ {name:"Lost Kingdom",type:"Movie",year:"2025",emoji:"🏰",style:""},
+ {name:"Magic Academy",type:"Series",year:"2026",emoji:"🔮",style:"three"},
+ {name:"Spirit World",type:"Anime",year:"2025",emoji:"🦊",style:"four"}
+];
+let current="All";
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const filtered=titles.filter(t=>(current==="All"||t.type===current)&&t.name.toLowerCase().includes(q));
+ document.getElementById("grid").innerHTML=filtered.map(t=>`
+ <article class="card">
+ <div class="poster ${t.style}">${t.emoji}</div>
+ <div class="info">
+ <h3>${t.name}</h3>
+ <p>${t.type} · ${t.year}</p>
+ <button class="watch" onclick="openPlayer('${t.name}')">▶ Watch</button>
+ </div>
+ </article>`).join("");
+ document.getElementById("empty").hidden=filtered.length!==0;
+}
+function setFilter(type,button){
+ current=type;
+ document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ render();
+}
+function openPlayer(name){
+ document.getElementById("playerTitle").textContent=name;
+ document.getElementById("player").style.display="flex";
+}
+function closePlayer(){
+ document.getElementById("player").style.display="none";
+}
+render();
+</script>
+</body>
+</html>
