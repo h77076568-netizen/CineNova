@@ -1,146 +1,643 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CineNova | Anime Universe</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#090711;color:#fff;font-family:Arial,sans-serif}
-header{position:sticky;top:0;z-index:5;background:#100b1c;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #35204d}
-.logo{font-size:25px;font-weight:900;color:#bd7aff}
-.logo span{color:white}
-nav{display:flex;gap:17px}
-nav a{color:#ddd;text-decoration:none;font-size:13px}
-nav a:hover{color:#c68aff}
-.hero{margin:20px 4%;padding:35px 22px;border-radius:18px;min-height:240px;background:linear-gradient(100deg,#170b2e,#45206a,#160d29);display:flex;flex-direction:column;justify-content:center}
-.tag{color:#d4a4ff;font-size:12px;letter-spacing:2px}
-.hero h1{font-size:35px;margin:12px 0}
-.hero p{color:#ddd;max-width:420px;line-height:1.5;font-size:14px}
-.btn{background:#9c4dff;color:white;border:0;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;width:max-content}
-.search{margin:22px 4%;display:flex;gap:8px}
-.search input{width:100%;padding:14px;border:1px solid #49315f;border-radius:9px;background:#171121;color:white;font-size:15px;outline:none}
-section{padding:8px 4% 24px}
-.section-title{font-size:21px;margin:12px 0 17px}
-.filters{display:flex;gap:9px;overflow-x:auto;margin-bottom:18px}
-.filter{white-space:nowrap;padding:9px 15px;border-radius:20px;border:1px solid #49315f;background:#171121;color:#ddd;cursor:pointer}
-.filter.active{background:#923fe4;color:white;border-color:#923fe4}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.card{background:#171121;border:1px solid #30223e;border-radius:12px;overflow:hidden}
-.poster{height:155px;display:flex;align-items:center;justify-content:center;font-size:55px;background:linear-gradient(135deg,#32134e,#9a48b8)}
-.poster.two{background:linear-gradient(135deg,#101c42,#4569a8)}
-.poster.three{background:linear-gradient(135deg,#421629,#a94c70)}
-.poster.four{background:linear-gradient(135deg,#143a38,#398d7b)}
-.info{padding:12px}
-.info h3{margin:0 0 7px;font-size:15px}
-.info p{color:#aaa;font-size:12px;margin:0 0 12px}
-.watch{width:100%;padding:9px;border:0;border-radius:7px;background:#813bd0;color:white;font-weight:bold;cursor:pointer}
-.empty{color:#aaa;padding:20px 0}
-footer{text-align:center;color:#888;padding:28px 15px;border-top:1px solid #30223e;font-size:12px}
-#player{display:none;position:fixed;inset:0;background:#000e;z-index:10;align-items:center;justify-content:center;padding:20px}
-.playerbox{background:#171121;border:1px solid #7445a1;border-radius:15px;padding:22px;max-width:450px;width:100%}
-.playerbox h2{color:#c78bff}
-.playerbox p{color:#ccc;line-height:1.6;font-size:14px}
-.close{float:right;background:#39234e;color:white;border:0;padding:8px 12px;border-radius:6px}
-@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.poster{height:210px}.hero{padding:55px 45px}.hero h1{font-size:48px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineNova 2.0 — Anime, Movies & Series</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070611;
+      --surface: #120f24;
+      --surface-2: #1a1533;
+      --border: #2b2452;
+      --text: #f5f3ff;
+      --muted: #a69ec7;
+      --accent: #8b5cf6;
+      --accent-2: #ec4899;
+      --card-grad: linear-gradient(145deg, #24184d 0%, #121836 60%, #2d1438 100%);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7, 6, 17, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      background: linear-gradient(90deg, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+
+    nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 16px 48px;
+    }
+
+    /* Hero Banner */
+    .hero {
+      background:
+        radial-gradient(circle at top right, rgba(236, 72, 153, 0.25), transparent 45%),
+        radial-gradient(circle at top left, rgba(139, 92, 246, 0.35), transparent 55%),
+        var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #d8b4fe;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(167, 139, 250, 0.35);
+      padding: 5px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(26px, 5vw, 42px);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 600px;
+      margin-bottom: 18px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Search & Filter Controls */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Section Title */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      font-size: 20px;
+    }
+
+    .count-text {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Poster Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .poster-wrap {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      background: var(--card-grad);
+      overflow: hidden;
+    }
+
+    .poster-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .type-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(7, 6, 17, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 8px;
+    }
+
+    .rating-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(139, 92, 246, 0.9);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .card-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 12.5px;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .watch-btn {
+      margin-top: 6px;
+      width: 100%;
+      background: var(--surface-2);
+      color: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .watch-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 16px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      color: var(--muted);
+      display: none;
+    }
+
+    /* About Section */
+    .about-box {
+      margin-top: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .about-box h3 {
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .about-box p {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    /* Player Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-top h3 {
+      font-size: 16px;
+    }
+
+    .close-btn {
+      background: var(--surface-2);
+      color: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 11px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .modal-body {
+      padding: 16px;
+    }
+
+    .video-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .video-frame iframe,
+    .video-frame video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .modal-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+  </style>
 </head>
 <body>
-<header>
-<div class="logo">Cine<span>Nova</span> ✦</div>
-<nav>
-<a href="#home">Home</a>
-<a href="#anime">Anime</a>
-<a href="#movies">Movies</a>
-<a href="#about">About</a>
-</nav>
-</header>
+  <header>
+    <div class="logo">CineNova 2.0</div>
+    <nav>
+      <a href="#library">Library</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-<div class="hero" id="home">
-<div class="tag">WELCOME TO YOUR ANIME UNIVERSE</div>
-<h1>Enter the Anime World</h1>
-<p>Discover amazing stories, explore new worlds and enjoy your favourite licensed videos in one place.</p>
-<button class="btn" onclick="document.getElementById('anime').scrollIntoView({behavior:'smooth'})">Explore Now →</button>
-</div>
+  <main class="container">
+    <section class="hero">
+      <span class="badge">CineNova 2.0 • Library & Discovery</span>
+      <h1>Anime, Movies & Web Series in One Place</h1>
+      <p>Browse poster cards, filter by category, search titles instantly, and preview licensed trailers or open animations.</p>
+      <a href="#library" class="btn-primary">Explore Library ↓</a>
+    </section>
 
-<div class="search">
-<input id="search" type="search" placeholder="🔍 Search anime, movies..." oninput="render()">
-</div>
+    <section id="library">
+      <div class="controls">
+        <div class="search-box">
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search anime, movies, or web series..."
+            oninput="renderLibrary()"
+          />
+        </div>
 
-<section id="anime">
-<h2 class="section-title">✦ Explore Collection</h2>
-<div class="filters">
-<button class="filter active" onclick="setFilter('All',this)">All</button>
-<button class="filter" onclick="setFilter('Anime',this)">Anime</button>
-<button class="filter" onclick="setFilter('Movie',this)">Movies</button>
-<button class="filter" onclick="setFilter('Series',this)">Series</button>
-</div>
-<div class="grid" id="grid"></div>
-<div class="empty" id="empty" hidden>No titles found. Try another search.</div>
-</section>
+        <div class="filters" id="filterBar">
+          <button class="filter-btn active" data-cat="All" onclick="setCategory('All', this)">All</button>
+          <button class="filter-btn" data-cat="Anime" onclick="setCategory('Anime', this)">Anime</button>
+          <button class="filter-btn" data-cat="Movies" onclick="setCategory('Movies', this)">Movies</button>
+          <button class="filter-btn" data-cat="Web Series" onclick="setCategory('Web Series', this)">Web Series</button>
+        </div>
+      </div>
 
-<section id="movies">
-<h2 class="section-title">✦ Your Watchlist</h2>
-<p style="color:#aaa;font-size:14px">More titles will appear here as you add your own licensed content.</p>
-</section>
+      <div class="section-head">
+        <h2 id="sectionTitle">All Titles</h2>
+        <span class="count-text" id="countText">0 items</span>
+      </div>
 
-<section id="about">
-<h2 class="section-title">About CineNova</h2>
-<p style="color:#aaa;line-height:1.7;font-size:14px">CineNova is an independent entertainment platform prototype. Videos and downloads are available only when the content owner permits them.</p>
-</section>
+      <div class="grid" id="libraryGrid"></div>
 
-<div id="player">
-<div class="playerbox">
-<button class="close" onclick="closePlayer()">Close ✕</button>
-<h2 id="playerTitle">CineNova Player</h2>
-<p>This is your demo watch page. To stream a video, the site owner must add a video URL they own or are licensed to distribute.</p>
-<p style="color:#c78bff">Video player setup will be added in the next version.</p>
-</div>
-</div>
+      <div class="empty-state" id="emptyState">
+        Koi title nahi mila. Search ya category badal kar dekhein.
+      </div>
+    </section>
 
-<footer>© 2026 CineNova · Independent streaming platform</footer>
+    <section id="about" class="about-box">
+      <h3>About CineNova 2.0</h3>
+      <p>Built on GitHub Pages. Only use officially licensed embeds, trailers, or Creative Commons / public-domain videos so your site stays safe and compliant.</p>
+    </section>
+  </main>
 
-<script>
-const titles=[
- {name:"Mystic Adventures",type:"Anime",year:"2026",emoji:"🌌",style:""},
- {name:"Shadow Quest",type:"Anime",year:"2025",emoji:"⚔️",style:"two"},
- {name:"Crimson Moon",type:"Movie",year:"2026",emoji:"🌙",style:"three"},
- {name:"Ocean Dreams",type:"Series",year:"2025",emoji:"🌊",style:"four"},
- {name:"Galaxy Heroes",type:"Anime",year:"2026",emoji:"🚀",style:"two"},
- {name:"Lost Kingdom",type:"Movie",year:"2025",emoji:"🏰",style:""},
- {name:"Magic Academy",type:"Series",year:"2026",emoji:"🔮",style:"three"},
- {name:"Spirit World",type:"Anime",year:"2025",emoji:"🦊",style:"four"}
-];
-let current="All";
-function render(){
- const q=document.getElementById("search").value.toLowerCase();
- const filtered=titles.filter(t=>(current==="All"||t.type===current)&&t.name.toLowerCase().includes(q));
- document.getElementById("grid").innerHTML=filtered.map(t=>`
- <article class="card">
- <div class="poster ${t.style}">${t.emoji}</div>
- <div class="info">
- <h3>${t.name}</h3>
- <p>${t.type} · ${t.year}</p>
- <button class="watch" onclick="openPlayer('${t.name}')">▶ Watch</button>
- </div>
- </article>`).join("");
- document.getElementById("empty").hidden=filtered.length!==0;
-}
-function setFilter(type,button){
- current=type;
- document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
- button.classList.add("active");
- render();
-}
-function openPlayer(name){
- document.getElementById("playerTitle").textContent=name;
- document.getElementById("player").style.display="flex";
-}
-function closePlayer(){
- document.getElementById("player").style.display="none";
-}
-render();
-</script>
+  <!-- Preview / Player Modal -->
+  <div class="modal" id="playerModal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3 id="modalTitle">Title</h3>
+        <button class="close-btn" onclick="closeModal()">✕ Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="video-frame" id="playerBox"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Aap yahan apni items list badha sakte hain.
+    // videoUrl me licensed YouTube embed link (https://www.youtube.com/embed/VIDEO_ID) ya direct open .mp4 link dalein.
+    const catalog = [
+      {
+        title: "Cyber Ronin Chronicles",
+        category: "Anime",
+        rating: "★ 8.9",
+        poster: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80",
+        desc: "A lone swordsman in a neon city uncovers an ancient machine core.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+      },
+      {
+        title: "Skyward Horizon",
+        category: "Movies",
+        rating: "★ 8.6",
+        poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+        desc: "An aerial adventure above floating islands and stormy clouds.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+      },
+      {
+        title: "Midnight Signal",
+        category: "Web Series",
+        rating: "★ 8.4",
+        poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+        desc: "Late-night transmissions connect a small town to a distant orbital station.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+      },
+      {
+        title: "Spirit Shrine Legends",
+        category: "Anime",
+        rating: "★ 9.1",
+        poster: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=600&q=80",
+        desc: "Guardians protect a hidden mountain shrine as seasonal spirits awaken.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+      },
+      {
+        title: "Echoes of Neo-Tokyo",
+        category: "Movies",
+        rating: "★ 8.7",
+        poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80",
+        desc: "Two sound engineers race against time to decode a city-wide broadcast.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+      },
+      {
+        title: "Chronicles of Astra",
+        category: "Web Series",
+        rating: "★ 8.5",
+        poster: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=80",
+        desc: "A crew of young explorers charts uncharted star systems episode by episode.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoy.mp4"
+      }
+    ];
+
+    let selectedCategory = "All";
+
+    function setCategory(category, btnEl) {
+      selectedCategory = category;
+      document.querySelectorAll(".filter-btn").forEach((btn) => btn.classList.remove("active"));
+      if (btnEl) btnEl.classList.add("active");
+      document.getElementById("sectionTitle").textContent =
+        category === "All" ? "All Titles" : category;
+      renderLibrary();
+    }
+
+    function renderLibrary() {
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+      const grid = document.getElementById("libraryGrid");
+      const empty = document.getElementById("emptyState");
+      const countText = document.getElementById("countText");
+
+      const filtered = catalog.filter((item) => {
+        const matchesCat = selectedCategory === "All" || item.category === selectedCategory;
+        const matchesQuery =
+          !query ||
+          item.title.toLowerCase().includes(query) ||
+          item.desc.toLowerCase().includes(query) ||
+          item.category.toLowerCase().includes(query);
+        return matchesCat && matchesQuery;
+      });
+
+      countText.textContent = `${filtered.length} ${filtered.length === 1 ? "item" : "items"}`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+      grid.innerHTML = filtered
+        .map((item) => {
+          const safeTitle = encodeURIComponent(item.title);
+          return `
+            <article class="card">
+              <div class="poster-wrap">
+                <img src="${item.poster}" alt="${item.title}" loading="lazy" />
+                <span class="type-tag">${item.category}</span>
+                <span class="rating-tag">${item.rating}</span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">${item.title}</h3>
+                <p class="card-desc">${item.desc}</p>
+                <button class="watch-btn" onclick="openModal('${safeTitle}')">▶ Watch / Preview</button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    function openModal(encodedTitle) {
+      const title = decodeURIComponent(encodedTitle);
+      const item = catalog.find((x) => x.title === title);
+      if (!item) return;
+
+      document.getElementById("modalTitle").textContent = `${item.title} (${item.category})`;
+      document.getElementById("modalDesc").textContent = item.desc;
+
+      const playerBox = document.getElementById("playerBox");
+      if (item.videoUrl.includes("youtube.com/embed/")) {
+        playerBox.innerHTML = `<iframe src="${item.videoUrl}" allowfullscreen></iframe>`;
+      } else {
+        playerBox.innerHTML = `<video src="${item.videoUrl}" controls autoplay playsinline></video>`;
+      }
+
+      document.getElementById("playerModal").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("playerModal").classList.remove("open");
+      document.getElementById("playerBox").innerHTML = "";
+    }
+
+    document.getElementById("playerModal").addEventListener("click", (e) => {
+      if (e.target.id === "playerModal") closeModal();
+    });
+
+    renderLibrary();
+  </script>
 </body>
-</html>
+ </html>
+ 
