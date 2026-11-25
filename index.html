@@ -650,14 +650,22 @@
               <div class="card-body">
                 <h3 class="card-title">${item.title}</h3>
                 <p class="card-desc">${item.desc}</p>
-                <button class="watch-btn" onclick="openModal('${safeTitle}')">▶ Watch / Preview</button>
+               <button class="watch-btn" onclick="openItem('${safeTitle}')">▶ View Details</button>
               </div>
             </article>
           `;
         })
         .join("");
     }
+function openItem(encodedTitle) {
+  const title = decodeURIComponent(encodedTitle);
 
+  if (title.toLowerCase().includes("naruto")) {
+    window.location.href = "details.html";
+  } else {
+    openModal(encodedTitle);
+  }
+    }
     function openModal(encodedTitle) {
       const title = decodeURIComponent(encodedTitle);
       const item = catalog.find((x) => x.title === title);
